@@ -1,4 +1,4 @@
-#react-native-exact-ratio
+# react-native-exact-ratio
 Get exact device density and ppi for [React Native](https://github.com/facebook/react-native).
 
 React Native build-in PixelRatio can get device density using PixelRatio.get(), but the return value has been rounded.
