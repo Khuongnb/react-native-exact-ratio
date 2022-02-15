@@ -13,29 +13,29 @@ class RNExactRatioModule: NSObject {
     func getPixelRatio() -> CGFloat {
         return UIScreen.main.nativeScale
     }
-    
-    func getDeviceDpi() -> CGFloat {
+
+    func guessDeviceDpi() -> CGFloat {
         let pixelRatio = getPixelRatio();
         let idiom = UI_USER_INTERFACE_IDIOM()
-        
-        switch idiom {
-        case UIUserInterfaceIdiom.pad:
+        let screen = UIScreen.main
+
+        if idiom == .pad {
             return 132 * pixelRatio
-        case UIUserInterfaceIdiom.phone:
-            return 163 * pixelRatio;
-        default:
-            return 160 * pixelRatio;
         }
+        if screen.scale == 3 {
+            return screen.nativeScale == 3 ? 153 * pixelRatio : 134 * pixelRatio
+        }
+        return 163 * pixelRatio
     }
-    
+
     @objc
     func constantsToExport() -> [AnyHashable : Any]! {
         return [
             "pixelRatio": getPixelRatio(),
-            "dpi": getDeviceDpi()
+            "dpi": guessDeviceDpi()
         ]
     }
-    
+
     @objc
     static func requiresMainQueueSetup() -> Bool {
         return true
